@@ -1,0 +1,12 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Task 9 LetterETest" type="JUnit" factoryName="JUnit">
+    <module name="comp1110-ass1" />
+    <option name="PACKAGE_NAME" value="comp1110.ass1" />
+    <option name="MAIN_CLASS_NAME" value="comp1110.ass1.LetterETest" />
+    <option name="METHOD_NAME" value="" />
+    <option name="TEST_OBJECT" value="class" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
