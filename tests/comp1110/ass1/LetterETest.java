@@ -6,8 +6,8 @@ public class LetterETest extends TranscriptionTest {
     public static final String[] INPUT_END_ONLY = new String[]{"le", "je"};
     public static final String[] EXPECTED_END_ONLY = new String[]{"lə", "ʒə"};
 
-    public static final String[] INPUT_END_WORD = new String[]{"âne", "père", "tête", "poste", "roue", "laine", "rire", "gare", "sale", "rose",};
-    public static final String[] EXPECTED_END_WORD = new String[]{"ɑn", "pɛʁ", "tɛt", "pɔst", "ʁu", "lɛn", "ʁiʁ", "gaʁ", "sal", "ʁɔz",};
+    public static final String[] INPUT_END_WORD = new String[]{"âne", "père", "tête", "poste", "roue", "laine", "rire", "gare", "sale", "passe",};
+    public static final String[] EXPECTED_END_WORD = new String[]{"ɑn", "pɛʁ", "tɛt", "pɔst", "ʁu", "lɛn", "ʁiʁ", "gaʁ", "sal", "pas",};
 
     public static final String[] INPUT_END_SYLLABLE = new String[]{"demain", "rejeté"};
     public static final String[] EXPECTED_END_SYLLABLE = new String[]{"də.mɛ̃", "ʁə.ʒə.te"};
