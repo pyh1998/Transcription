@@ -11,7 +11,7 @@ public class Phoneme {
      */
     final String id;  // the combination of characters that make up this Phoneme
     int index;        // where this Phoneme is located within its Syllable
-    String sound;     // how this Phoneme sounds in IPA
+    String sound;     // how this Phoneme sounds in IPA (an empty String is silent)
     Syllable context; // the Syllable in which this Phoneme is located
     boolean isVowel;  // whether this Phoneme is a vowel or not
 
@@ -272,9 +272,9 @@ public class Phoneme {
     /**
      * Determines what sound corresponds to this Phoneme.
      * <p>
-     * Hint: have a look at BASIC_CHRS and BASIC_SOUNDS. Also have a look at
-     * all of the boolean methods with FIXMEs. How could you integrate these
-     * seamlessly into this method...?
+     * Hint: for later tasks, have a look at BASIC_CHRS and BASIC_SOUNDS.
+     * Also have a look at all of the boolean methods with FIXMEs.
+     * How could you integrate these seamlessly into this method...?
      */
     public void evaluate() {
         // FIXME Task 1 complete this method

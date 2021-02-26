@@ -275,7 +275,7 @@ public class Word {
     /**
      * Given an array of syllables, find any neighbouring Phonemes with the
      * same sound. For each such pair of Phonemes, make the sound of the first
-     * Phoneme silent.
+     * Phoneme silent (set the sound field of the Phoneme to an empty String).
      *
      * Note that this method is not affected by syllable breaks, meaning that
      * the last Phoneme of the i-th Syllable neighbours the first Phoneme of
