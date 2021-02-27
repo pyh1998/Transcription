@@ -72,7 +72,7 @@ public class Word {
 
             /* Start as far as possible along the string and get the
              * corresponding substring. */
-            int lookahead = Math.min(data.length(), pointer + Phoneme.MAX_PHONEME_LENGTH);
+            int lookahead = Math.max(data.length(), pointer + Phoneme.MAX_PHONEME_LENGTH);
             String s = data.substring(pointer, lookahead);
 
             // Delimiter is needed to figure out if a vowel is nasal or not
@@ -84,7 +84,7 @@ public class Word {
             /* Find the given substring in both vowel and consonant lookup
              * tables. */
             Phoneme p = Phoneme.find(s, delimiter);
-            while (p == null) {
+            while (p==null) {
 
                 /* Couldn't find substring in either lookup table, so shorten
                  * the substring. */
@@ -256,6 +256,21 @@ public class Word {
      */
     public static Syllable[] splitIntoSyllables(Phoneme[] ps) {
         // FIXME Task 4 complete this method
+        for(Phoneme p:ps){
+            p.evaluate();
+            int index=p.index;
+            System.out.println(p.id+"   "+p.sound);
+//            if(index != 0 && index != ps.length-1){
+//                if(ps[index-1].isVowel==false && p.isVowel==true && ps[index+1].isVowel==false){
+//                    ps[index-1].sound+='.';
+//                    System.out.println(ps[index-1].sound+p.sound+ps[index+1].sound);
+//                }
+//            }
+
+        }
+
+
+
         return new Syllable[]{new Syllable(ps)};
     }
 
@@ -285,6 +300,22 @@ public class Word {
      */
     public static void removeDoubles(Syllable[] syllables) {
         // FIXME Task 2 complete this method
+        for(Syllable s:syllables) {
+            //System.out.println(s.phonemes.length);
+                for (Phoneme p : s.phonemes) {
+                    if (p.index + 1 != s.phonemes.length) {
+                        if (p.sound == s.phonemes[p.index + 1].sound) {
+                            p.sound = "";
+                        }
+                    }
+                    else if(s.successor!=null)
+                    {
+                        if (p.sound == s.successor.phonemes[0].sound) {
+                            p.sound = "";
+                        }
+                    }
+                }
+        }
     }
 
     /**
