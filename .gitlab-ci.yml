@@ -9,8 +9,8 @@ stages:
 before_script:
   - export PATH_TO_FX=/usr/share/openjfx/lib
   - export JAVAFX_OPTIONS="--module-path $PATH_TO_FX"
-  - export CP=src:/ass1/comp1110-ass1-tests.jar:/shared/junit-platform-console-standalone-1.7.0.jar
-  - export JUNIT="java $JAVAFX_OPTIONS -jar /shared/junit-platform-console-standalone-1.7.0.jar --class-path $CP --disable-banner"
+  - export CP=src:/ass1/*:/shared/junit-platform-console-standalone-1.7.0.jar:$PATH_TO_FX/*
+  - export JUNIT="java $JAVAFX_OPTIONS -jar /shared/junit-platform-console-standalone-1.7.0.jar --class-path src:/ass1/comp1110-ass1-tests.jar --disable-banner"
 
 integrity:
   tags:
