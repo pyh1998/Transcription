@@ -282,7 +282,7 @@ public class Phoneme {
         int i=0;
         for (Phoneme p : BASIC_CHRS) {
 
-            if(id==p.id)
+            if(id.equals(p.id))
             {
                 //System.out.println("id:"+id+"  p.id:"+p.id+"  i:"+i);
                 this.sound=BASIC_SOUNDS[i];

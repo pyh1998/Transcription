@@ -312,13 +312,13 @@ public class Word {
             //System.out.println(s.phonemes.length);
                 for (Phoneme p : s.phonemes) {
                     if (p.index + 1 != s.phonemes.length) {
-                        if (p.sound == s.phonemes[p.index + 1].sound) {
+                        if (p.sound.equals(s.phonemes[p.index + 1].sound)) {
                             p.sound = "";
                         }
                     }
                     else if(s.successor!=null)
                     {
-                        if (p.sound == s.successor.phonemes[0].sound) {
+                        if (p.sound.equals(s.successor.phonemes[0].sound)) {
                             p.sound = "";
                         }
                     }
