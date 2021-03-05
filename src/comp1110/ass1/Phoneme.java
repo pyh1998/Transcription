@@ -96,6 +96,22 @@ public class Phoneme {
      */
     public boolean lastPhoneme() {
         // FIXME Task 5
+//        System.out.println(context.isFinalSyllable());
+//        System.out.println(getId());
+        if(context.isFinalSyllable()){
+            if(index==context.phonemes.length-1) {
+                if (!isVowel && !getId().equals("c") && !getId().equals("f") && !getId().equals("l") && !getId().equals("r"))
+                    return true;
+                else if(getId().equals("e") && (index>1 || !context.isFirstSyllable()))
+                    return true;
+            }
+            else if(index==context.phonemes.length-2 && context.phonemes[index+1].getId().equals("s")){
+                if (!isVowel && !getId().equals("c") && !getId().equals("f") && !getId().equals("l") && !getId().equals("r"))
+                    return true;
+                else if(getId().equals("e") && (index>1 || !context.isFirstSyllable()))
+                    return true;
+            }
+        }
 
         return false;
     }
@@ -110,6 +126,10 @@ public class Phoneme {
      */
     public boolean beforeEOrI() {
         // FIXME Task 6
+        if(index < context.phonemes.length-1 && (context.phonemes[index + 1].getId().equals("y") || context.phonemes[index + 1].getId().equals("i") || context.phonemes[index + 1].getId().equals("e") || context.phonemes[index + 1].getId().equals("é") || context.phonemes[index + 1].getId().equals("è") || context.phonemes[index + 1].getId().equals("ê")))
+        {
+            return true;
+        }
         return false;
     }
 
@@ -125,6 +145,35 @@ public class Phoneme {
      */
     public boolean betweenTwoVowels() {
         // FIXME Task 7
+//        System.out.println("index:"+index);
+//        System.out.println(this.context.isFirstSyllable());
+//        System.out.println(this.context.isFinalSyllable());
+
+        if(index==0 && context.predecessor!=null){
+            if(context.predecessor.phonemes[context.predecessor.phonemes.length-1].isVowel && context.phonemes[1].isVowel){
+                char ending = context.predecessor.phonemes[context.predecessor.phonemes.length-1].getId().charAt(context.predecessor.phonemes[context.predecessor.phonemes.length-1].getId().length() - 1);
+                if(ending!='m' && ending!='n'){
+                    return true;
+                }
+            }
+
+        }
+        else if(index==context.phonemes.length-1 && context.successor!=null) {
+            if(context.successor.phonemes[0].isVowel && context.phonemes[index-1].isVowel) {
+                char ending = context.phonemes[index-1].getId().charAt(context.phonemes[index-1].getId().length() - 1);
+                if (ending != 'm' && ending != 'n') {
+                    return true;
+                }
+            }
+        }
+        else if(index!=0 && index!=context.phonemes.length-1){
+            if(context.phonemes[index-1].isVowel && context.phonemes[index+1].isVowel){
+                char ending = context.phonemes[index-1].getId().charAt(context.phonemes[index-1].getId().length() - 1);
+                if(ending!='m' && ending!='n'){
+                    return true;
+                }
+            }
+        }
         return false;
     }
 
@@ -137,6 +186,10 @@ public class Phoneme {
      */
     public boolean beforeVowel() {
         // FIXME Task 8
+        if(index!=context.phonemes.length-1){
+            if(context.phonemes[index+1].isVowel && (getId().equals("i") || getId().equals("y")))
+                return true;
+        }
         return false;
     }
 
@@ -148,7 +201,10 @@ public class Phoneme {
      */
     public boolean notAtEndOfSyllable() {
         // FIXME Task 9
-        return false;
+        if(index == context.phonemes.length-1 && index!=0){
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -160,6 +216,9 @@ public class Phoneme {
      */
     public boolean endsMultiSyllableWord() {
         // FIXME Task 10
+        if(context.isFinalSyllable() && !context.isFirstSyllable() && index==context.phonemes.length-1){
+            return true;
+        }
         return false;
     }
 
@@ -279,17 +338,51 @@ public class Phoneme {
      */
     public void evaluate() {
         // FIXME Task 1 complete this method
-        int i=0;
-        for (Phoneme p : BASIC_CHRS) {
+        if(lastPhoneme()){
+            this.sound="";
+            return;
+        }
 
-            if(id.equals(p.id))
+        if(beforeEOrI()){
+            if(getId().equals("c")){
+                this.sound="s";
+                return;
+            }
+            else if(getId().equals("g")){
+                this.sound="ʒ";
+                return;
+            }
+        }
+
+        if(betweenTwoVowels() && getId().equals("s")){
+            this.sound="z";
+            return;
+        }
+
+
+        if(beforeVowel()){
+            this.sound="j";
+            return;
+        }
+
+        if(getId().equals("e") && notAtEndOfSyllable()){
+            this.sound="ɛ";
+            return;
+        }
+
+        if(getId().equals("er") && endsMultiSyllableWord()){
+            this.sound="e";
+            return;
+        }
+
+        for (int i=0;i<BASIC_CHRS.length;i++) {
+            if(id.equals(BASIC_CHRS[i].getId()))
             {
                 //System.out.println("id:"+id+"  p.id:"+p.id+"  i:"+i);
                 this.sound=BASIC_SOUNDS[i];
                 //System.out.println(BASIC_SOUNDS[i]);
                 break;
             }
-            i++;
         }
 
     }

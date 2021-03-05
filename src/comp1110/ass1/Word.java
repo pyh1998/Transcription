@@ -42,9 +42,9 @@ public class Word {
 
         /* Figure out which sound is made by each phoneme based on each
          *  phoneme's position within the word and/or syllables. */
-//        for (Syllable s : syllables) {
-//            s.evaluate();
-//        }
+        for (Syllable s : syllables) {
+            s.evaluate();
+        }
 
         // Remove trailing syllables without vowels
         syllables = Word.condenseSyllables(syllables);
@@ -256,30 +256,40 @@ public class Word {
      */
     public static Syllable[] splitIntoSyllables(Phoneme[] ps) {
         // FIXME Task 4 complete this method
-        for(int i=0;i<ps.length;i++){
-            //System.out.println(ps[i].id);
-            ps[i].evaluate();
-            //System.out.println(ps[i].sound);
-            if(i != 0 && i < ps.length-1){
-                if(oneConsonantTwoVowels(ps,i)){
-                    ps[i-1].sound+='.';
-                    //System.out.println(ps[i-1].sound+ps[i].sound+ps[i+1].sound);
-                }
-            }
-            if(i > 1 && i < ps.length-1){
-                if(syllableException(ps,i)){
-                    ps[i-1].sound+='.';
-                }
-                else if(twoConsonantsTwoVowels(ps,i)){
-                     if(ps[i].sound.equals(ps[i-1].sound)){
-                        ps[i-1].sound="";
-                    }
-                    else ps[i-1].sound+='.';
-                    //System.out.println(ps[i-1].sound+ps[i].sound+ps[i+1].sound);
-                }
+//        for(int i=0;i<ps.length;i++){
+//            //System.out.println(ps[i].id);
+//            //ps[i].evaluate();
+//            //System.out.println(ps[i].sound);
+//            if(i != 0 && i < ps.length-1){
+//                if(oneConsonantTwoVowels(ps,i)){
+//                    //breakIntoSyllables(ps);
+//                    ps[i-1].sound+='.';
+//                    //System.out.println(ps[i-1].sound+ps[i].sound+ps[i+1].sound);
+//                }
+//            }
+//            if(i > 1 && i < ps.length-1){
+//                if(syllableException(ps,i)){
+//                    ps[i-1].sound+='.';
+//                }
+//                else if(twoConsonantsTwoVowels(ps,i)){
+//                     if(ps[i].sound.equals(ps[i-1].sound)){
+//                        ps[i-1].sound="";
+//                    }
+//                    else ps[i-1].sound+='.';
+//                    //System.out.println(ps[i-1].sound+ps[i].sound+ps[i+1].sound);
+//                }
+//            }
+//        }
+//        return new Syllable[]{new Syllable(ps)};
+        Phoneme[][] p=breakIntoSyllables(ps);
+        Syllable[] s=new Syllable[p.length];
+        for(int i=0;i<p.length;i++){
+            s[i]=new Syllable(p[i]);
+            if(i>0){
+                s[i].setPredecessor(s[i-1]);
             }
         }
-        return new Syllable[]{new Syllable(ps)};
+        return s;
     }
 
     /**
@@ -292,6 +302,49 @@ public class Word {
      */
     public static Syllable[] condenseSyllables(Syllable[] syllables) {
         // FIXME Task 11 complete this method
+        Syllable s1 = syllables[syllables.length-1];
+        if(syllables.length>1){
+            for(int i=0;i<s1.phonemes.length;i++){
+                if(s1.phonemes[i].isVowel){
+                    if(i!=s1.phonemes.length-1){
+                        return syllables;
+                    }
+                    else if(!s1.phonemes[i].sound.equals(""))
+                    {
+                        return syllables;
+                    }
+                }
+            }
+            Syllable s2 = syllables[syllables.length-2];
+            Phoneme[] p = new Phoneme[s1.phonemes.length+s2.phonemes.length];
+
+            for(int i=0;i<s2.phonemes.length;i++){
+                p[i] = s2.phonemes[i];
+            }
+            for(int i=0;i<s1.phonemes.length;i++){
+                p[i+s2.phonemes.length] = s1.phonemes[i];
+            }
+            Syllable s=new Syllable(p);
+            Syllable[] ss = new Syllable[syllables.length-1];
+            for(int i=0;i<syllables.length-1;i++){
+                if(i!=syllables.length-2){
+                    ss[i]=syllables[i];
+                }
+                else{
+                    ss[i]=s;
+                    if(i>0){
+                        ss[i].setPredecessor(ss[i-1]);
+                    }
+                }
+            }
+            return ss;
+
+        }
+
+
+
+
+
         return syllables;
     }
 
@@ -311,7 +364,7 @@ public class Word {
         for(Syllable s:syllables) {
             //System.out.println(s.phonemes.length);
                 for (Phoneme p : s.phonemes) {
-                    if (p.index + 1 != s.phonemes.length) {
+                    if (p.index != s.phonemes.length - 1) {
                         if (p.sound.equals(s.phonemes[p.index + 1].sound)) {
                             p.sound = "";
                         }
